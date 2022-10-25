@@ -1,0 +1,92 @@
+:root {
+    --color-text: hsl(200, 15%, 8%);
+    --color-input: hsl(0, 0%, 52%);
+    --color-background: hsl(0, 0%, 98%);
+    --color-white: hsl(0, 0%, 100%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+main {
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 0 32px;
+}
+
+header {
+    background-color: var(--color-white);
+}
+
+.header-content {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1280px;
+    padding: 32px;
+
+}
+
+header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    list-style: none;
+    gap: 60px;
+}
+
+li {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 3px 2px 29px -16px rgba(66, 68, 90, 1);
+}
+
+li img {
+    width: 100%;
+    aspect-ratio: 160/98;
+}
+
+.info-container {
+    padding: 30px 20px;
+
+}
+
+.country-name {
+    display: block;
+    font-size: 18px;
+    margin-bottom: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+    ul {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    ul {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    ul {
+        grid-template-columns: 1fr;
+    }
+}
