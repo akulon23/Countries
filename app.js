@@ -1,48 +1,10 @@
-import { renderCountriesList } from "./dom-utils.js";
+import { renderDashboard } from "./view-dashboard.js";
+import { renderDetail } from "./view-detail.js";
 
+if (window.location.search.includes("?country=")) {
+    renderDetail();
+} else {
+    document.querySelector(".filters").classList.add("active");
+    renderDashboard();
+}
 
-const API_URL_ALL = "https://restcountries.com/v3.1/all";
-
-let countries;
-let query = "";
-let region = "";
-
-fetch(API_URL_ALL)
-    .then((res) => res.json())
-    .then((countriesRaw) => {
-        countries = countriesRaw.map((country) => {
-            if (country.name.common === "Africa"); {console.log(country.region)}
-            return {
-                capital: country.capital && country.capital[0],
-                population: country.population,
-                name: country.name.common,
-                region: country.region,
-                flagUrl: country.flags.png,
-            };
-
-        });
-
-        renderCountriesList(countries);
-    });
-
-const filterDataAndRenderCountriesList = () => {
-    const filteredCountries = countries.filter((country) => {
-        return (
-            country.name.toLowerCase().includes(query) &&
-            (!region || country.region === region)
-        );
-    });
-
-    renderCountriesList(filteredCountries);
-};
-
-document.querySelector("#query").addEventListener("input", (e) => {
-    // render countries based on query
-    query = e.target.value.toLowerCase().trim();
-    filterDataAndRenderCountriesList();
-});
-
-document.querySelector('#region').addEventListener("change", (e) => {
-    region = e.target.value;
-    filterDataAndRenderCountriesList();
-});

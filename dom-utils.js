@@ -3,7 +3,7 @@ const createInfoElement = (labelName, value) => {
 
 
     const labelElement = document.createElement("strong");
-    labelElement.innerText = `${labelName}:`;
+    labelElement.innerText = `${labelName}: `;
     const valueElement = document.createElement("span");
     valueElement.innerText = value;
 
@@ -11,30 +11,34 @@ const createInfoElement = (labelName, value) => {
     infoElement.appendChild(valueElement);
 
     return infoElement;
-}
+};
 
 const createFlagImgElement = (country) => {
     const imgContainerElement = document.createElement("div");
     const imgElement = document.createElement("img");
     imgElement.src = country.flagUrl;
-    imgElement.alt = `${country.name}flag`;
+    imgElement.alt = `${country.name} flag`;
 
     imgContainerElement.appendChild(imgElement);
 
     return imgContainerElement;
-}
+};
 
 const createCountryItemElement = (country) => {
+    console.log(country)
     const countryElement = document.createElement("li");
 
-    countryElement.appendChild(createFlagImgElement(country));
+    const anchorElement = document.createElement("a");
+    anchorElement.href = `?country=${country.code}`;
+
+    anchorElement.appendChild(createFlagImgElement(country));
 
     const infoContainerElement = document.createElement('div');
     infoContainerElement.classList.add("info-container");
 
     const countryNameElement = document.createElement("strong");
-    countryElement.classList.add('country-name');
     countryNameElement.innerText = country.name;
+    countryNameElement.classList.add('country-name');
 
     infoContainerElement.appendChild(countryNameElement);
 
@@ -45,21 +49,90 @@ const createCountryItemElement = (country) => {
     infoContainerElement.appendChild(
         createInfoElement("Capital", country.capital));
 
-    countryElement.appendChild(infoContainerElement);
+    anchorElement.appendChild(infoContainerElement);
+    countryElement.appendChild(anchorElement);
 
     return countryElement;
 };
 
 const createListElement = (countries) => {
-    const ListElement = document.createElement("ul");
+    const listElement = document.createElement("ul");
     countries.forEach((country) => {
-        ListElement.appendChild(createCountryItemElement(country));
+        listElement.appendChild(createCountryItemElement(country));
     });
 
-    return ListElement;
+    return listElement;
+};
+
+const createDetailElement = (country) => {
+    const detailContainerElement = document.createElement("div");
+
+    const flagImgElement = createFlagImgElement(country);
+    const detailContentElement = document.createElement("div");
+    detailContainerElement.classList.add("detail-container");
+    detailContentElement.classList.add("detail-content");
+
+    const detailNameElement = document.createElement("strong");
+    detailNameElement.innerText = country.name;
+    detailNameElement.classList.add("detail-name");
+
+    detailContainerElement.appendChild(flagImgElement);
+    detailContentElement.appendChild(detailNameElement);
+
+    const leftColumnElement = document.createElement("div");
+
+    leftColumnElement.appendChild(createInfoElement('Native name', country.nativeName));
+    leftColumnElement.appendChild(createInfoElement('Population', country.population));
+    leftColumnElement.appendChild(createInfoElement('Region', country.region));
+    leftColumnElement.appendChild(createInfoElement('Sub region', country.subregion));
+    leftColumnElement.appendChild(createInfoElement('Capital', country.capital));
+
+    const rightColumnElement = document.createElement('div');
+
+    rightColumnElement.appendChild(createInfoElement('Top level domain', country.tld));
+    rightColumnElement.appendChild(createInfoElement('Curriencies', country.currencies));
+    rightColumnElement.appendChild(createInfoElement('Languages', country.languages));
+
+    detailContentElement.appendChild(leftColumnElement);
+    detailContentElement.appendChild(rightColumnElement);
+
+    if (country.borders && country.borders, length > 0) {
+        detailContentElement.appendChild(
+            createBorderCountriesContainer(country)
+        );
+    }
+    detailContainerElement.appendChild(detailContentElement);
+
+    return detailContainerElement;
+};
+
+const createDetailButton = (text, link) => {
+    const anchorElement = document.createElement('a');
+    anchorElement.innerText = text;
+    anchorElement.classList.add('detail-button');
+    anchorElement.href = link;
+
+    return anchorElement;
+};
 
 
-}
+const createBorderCountriesContainer = (country) => {
+
+    const borderCountriesContainerElement = document.createElement('div');
+    borderCountriesContainerElement.classList.add("border-countries-container");
+    const labelElement = document.createElement('strong');
+    labelElement.innerText = "Border Countries";
+
+    borderCountriesContainerElement.appendChild(labelElement);
+
+    country.borders.forEach((border)=> {
+        borderCountriesContainerElement.appendChild(
+            createDetailButton(border, `?country=${border}`)
+        );
+    });
+
+    return borderCountriesContainerElement;
+};
 
 export const renderCountriesList = (countries) => {
     const rootElement = document.querySelector("#root");
@@ -67,3 +140,9 @@ export const renderCountriesList = (countries) => {
     rootElement.appendChild(createListElement(countries));
 };
 
+export const renderCountryDetails = (country) => {
+    const rootElement = document.querySelector("#root");
+    rootElement.innerHTML = "";
+    rootElement.appendChild(createDetailButton('Go back', '/'));
+    rootElement.appendChild(createDetailElement(country));
+};

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -23,20 +23,21 @@
     <div class="filters">
         <input type="text" id="query" placeholder="Search for a country..." />
         <select name="region" id="region">
-            <option value="">Filter by Region</option>
+            <option value="" selected style="display:none;"> Filter by Region</option>
             <option value="Europe">Europe</option>
-            <option value="Americas">Americas</option>
+            <option value="America">America</option>
             <option value="Asia">Asia</option>
             <option value="Africa">Africa</option>
             <option value="Oceania">Oceania</option>
 
         </select>
     </div>
-    <main id="root">
 
-    </main>
+    <main id="root"> </main>
     <script type="module" src="app.js"></script>
     <script type="module" src="dom-utils.js"></script>
+    <script type="module" src="view-dashboard.js"></script>
+    <script type="module" src="view-detail.js"></script>
 </body>
 
 </html>
