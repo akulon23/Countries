@@ -17,7 +17,7 @@ const createFlagImgElement = (country) => {
     const imgContainerElement = document.createElement("div");
     const imgElement = document.createElement("img");
     imgElement.src = country.flagUrl;
-    imgElement.alt= `${country.name}flag`;
+    imgElement.alt = `${country.name}flag`;
 
     imgContainerElement.appendChild(imgElement);
 
@@ -63,6 +63,7 @@ const createListElement = (countries) => {
 
 export const renderCountriesList = (countries) => {
     const rootElement = document.querySelector("#root");
+    rootElement.innerHTML = "";
     rootElement.appendChild(createListElement(countries));
 };
 
